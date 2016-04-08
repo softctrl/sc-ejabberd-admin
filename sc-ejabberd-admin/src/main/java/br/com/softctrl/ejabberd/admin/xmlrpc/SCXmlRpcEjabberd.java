@@ -1,6 +1,3 @@
-/**
- * 
- */
 package br.com.softctrl.ejabberd.admin.xmlrpc;
 
 import java.net.URL;
@@ -17,12 +14,35 @@ import br.com.softctrl.ejabberd.admin.xmlrpc.SCParamBuilder.ISCAuthProcess;
 import br.com.softctrl.utils.Objects;
 import br.com.softctrl.utils.json.GsonUtils;
 
+/*
+The MIT License (MIT)
+
+Copyright (c) 2016 Carlos Timoshenko Rodrigues Lopes
+http://www.0x09.com.br
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 /**
- * Based on:
- * https://docs.ejabberd.im/admin/api/
- * https://github.com/softctrl/sc-ejabberd-admin.git
- * @author timoshenko
- *
+ * Base on https://docs.ejabberd.im/admin/api/
+ * 
+ * @author carlostimoshenkorodrigueslopes@gmail.com
  */
 public class SCXmlRpcEjabberd extends XmlRpcClient {
 
@@ -1243,22 +1263,6 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
                 .addParam("ns", ns));
     }
     
-    //private_set
-    
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    //TODO: Just a reminder to help me. next private_set
 
 }
