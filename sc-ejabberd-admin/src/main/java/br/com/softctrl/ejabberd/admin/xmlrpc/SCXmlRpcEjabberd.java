@@ -100,10 +100,14 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param methodName
      * @param paramBuilder
      * @return
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    protected String execute(String methodName, SCParamBuilder paramBuilder) throws XmlRpcException {
-        return GsonUtils.toJson(execute(methodName, paramBuilder.getParams()));
+    protected String execute(String methodName, SCParamBuilder paramBuilder) throws SCXmlRpcException {
+        try {
+            return GsonUtils.toJson(execute(methodName, paramBuilder.getParams()));
+        } catch (XmlRpcException e) {
+            throw new SCXmlRpcException(methodName, e);
+        }
     }
 
     /**
@@ -117,10 +121,10 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param group
      * @param subs
      * @return {res,rescode}
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
     public String addRosterItem(String localuser, String localserver, String user, String server, String nick,
-            String group, String subs) throws XmlRpcException {
+            String group, String subs) throws SCXmlRpcException {
         return execute(Constants.Api.ADD_ROSTERITEM,
                 new SCParamBuilder().addParam("localuser", localuser)
                 .addParam("localserver", localserver)
@@ -136,9 +140,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param file
      * @return 
-     * @throws XmlRpcException 
+     * @throws SCXmlRpcException 
      */
-    public String backup(String file) throws XmlRpcException{
+    public String backup(String file) throws SCXmlRpcException{
         return execute(Constants.Api.BACKUP, new SCParamBuilder().addParam("file", file));
     }
     
@@ -149,9 +153,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param host Server name.
      * @param reason Reason for banning user.
      * @return {res,rescode} - Status code: 0 on success, 1 otherwise.
-     * @throws XmlRpcException 
+     * @throws SCXmlRpcException 
      */
-    public String banAccount(String user, String host, String reason) throws XmlRpcException {
+    public String banAccount(String user, String host, String reason) throws SCXmlRpcException {
         return execute(Constants.Api.BAN_ACCOUNT, new SCParamBuilder()
                 .addParam("user", user)
                 .addParam("host", host)
@@ -165,9 +169,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param host Server name.
      * @param newPass New password for user.
      * @return {res,rescode} Status code: 0 on success, 1 otherwise.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String changePassword(String user, String host, String newpass) throws XmlRpcException {
+    public String changePassword(String user, String host, String newpass) throws SCXmlRpcException {
         return execute(Constants.Api.CHANGE_PASSWORD, new SCParamBuilder()
                 .addParam("user", user)
                 .addParam("host", host)
@@ -182,9 +186,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param option
      * @param value
      * @return
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String changeRoomOption(String name, String service, String option, String value) throws XmlRpcException {
+    public String changeRoomOption(String name, String service, String option, String value) throws SCXmlRpcException {
         return execute(Constants.Api.CHANGE_ROOM_OPTION, new SCParamBuilder()
                 .addParam("name", name)
                 .addParam("service", service)
@@ -198,9 +202,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param name User name to check.
      * @param host Server to check
      * @return {res,rescode} Status code: 0 on success, 1 otherwise.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String checkAccount(String user, String host) throws XmlRpcException {
+    public String checkAccount(String user, String host) throws SCXmlRpcException {
         return execute(Constants.Api.CHECK_ACCOUNT, new SCParamBuilder(this.mProcess)
                 .addParam("user", user)
                 .addParam("host", host));  
@@ -213,9 +217,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param host Server to check.
      * @param password Password to check.
      * @return {res,rescode} Status code: 0 on success, 1 otherwise.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String checkPassword(String user, String host, String password) throws XmlRpcException {
+    public String checkPassword(String user, String host, String password) throws SCXmlRpcException {
         return execute(Constants.Api.CHECK_PASSWORD, new SCParamBuilder(this.mProcess)
                 .addParam("user", user)
                 .addParam("host", host)
@@ -231,9 +235,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param passwordhash Password’s hash value. 
      * @param hashmethod Name of hash method.
      * @return {res,rescode} Status code: 0 on success, 1 otherwise.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String checkPasswordHash(String user, String host, String passwordhash, String hashmethod) throws XmlRpcException {
+    public String checkPasswordHash(String user, String host, String passwordhash, String hashmethod) throws SCXmlRpcException {
         return execute(Constants.Api.CHECK_PASSWORD_HASH, new SCParamBuilder()
                 .addParam("user", user)
                 .addParam("host", host)
@@ -246,9 +250,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param file Filename of erlang source file to compile.
      * @return {res,rescode} Status code: 0 on success, 1 otherwise.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String compile(String file) throws XmlRpcException {
+    public String compile(String file) throws SCXmlRpcException {
         return execute(Constants.Api.COMPILE, new SCParamBuilder()
                 .addParam("file", file));  
     }
@@ -257,9 +261,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * List all established sessions.
      * 
      * @return {connected_users,{list,{sessions,string}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String connectedUsers() throws XmlRpcException {
+    public String connectedUsers() throws SCXmlRpcException {
         return execute(Constants.Api.CONNECTED_USERS,
                 new SCParamBuilder(this.mProcess));
     }
@@ -270,9 +274,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @return {connected_users_info, {list, {sessions, {tuple, [{jid,string},
      *         {connection,string}, {ip,string}, {port,integer},
      *         {priority,integer}, {node,string}, {uptime,integer}]}}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String connectedUsersInfo() throws XmlRpcException {
+    public String connectedUsersInfo() throws SCXmlRpcException {
         return execute(Constants.Api.CONNECTED_USERS_INFO, new SCParamBuilder(this.mProcess));  
     }
     
@@ -280,9 +284,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * Get the number of established sessions.
      * 
      * @return {num_sessions,integer}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String connectedUsersNumber() throws XmlRpcException {
+    public String connectedUsersNumber() throws SCXmlRpcException {
         return execute(Constants.Api.CONNECTED_USERS_NUMBER, new SCParamBuilder(this.mProcess));  
     }
     
@@ -291,9 +295,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param vhost
      * @return {connected_users_vhost,{list,{sessions,string}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String connectedUsersVhost(String vhost) throws XmlRpcException {
+    public String connectedUsersVhost(String vhost) throws SCXmlRpcException {
         return execute(Constants.Api.CONNECTED_USERS_VHOST, new SCParamBuilder(this.mProcess)
                 .addParam("host", vhost));  
     }
@@ -303,9 +307,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param host
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String convertToScram(String host) throws XmlRpcException {
+    public String convertToScram(String host) throws SCXmlRpcException {
         return execute(Constants.Api.CONVERT_TO_SCRAM, new SCParamBuilder().addParam("host", host));  
     }
     
@@ -315,9 +319,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param in
      * @param out
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String convertToYaml(String in, String out) throws XmlRpcException {
+    public String convertToYaml(String in, String out) throws SCXmlRpcException {
         return execute(Constants.Api.CONVERT_TO_SCRAM, new SCParamBuilder().addParam("in", in).addParam("out", out));
     }
     
@@ -328,9 +332,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param service
      * @param host
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String createRoom(String name, String service, String host) throws XmlRpcException {
+    public String createRoom(String name, String service, String host) throws SCXmlRpcException {
         return execute(Constants.Api.CREATE_ROOM, new SCParamBuilder()
                 .addParam("name", name)
                 .addParam("service", service)
@@ -343,9 +347,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param file
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String createRoomsFile(String file) throws XmlRpcException {
+    public String createRoomsFile(String file) throws SCXmlRpcException {
         return execute(Constants.Api.CREATE_ROOMS_FILE, new SCParamBuilder()
                 .addParam("file", file));
     }
@@ -354,9 +358,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * Delete expired offline messages from database.
      * 
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String deleteExpiredMessages() throws XmlRpcException {
+    public String deleteExpiredMessages() throws SCXmlRpcException {
         return execute(Constants.Api.DELETE_EXPIRED_MESSAGES, new SCParamBuilder());
     }
 
@@ -366,9 +370,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param type Valid message TYPEs: “chat”, “groupchat”, “all”.
      * @param days number of days.
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String deleteOldMamMessages(String type, Integer days) throws XmlRpcException {
+    public String deleteOldMamMessages(String type, Integer days) throws SCXmlRpcException {
         return execute(Constants.Api.DELETE_OLD_MAM_MESSAGES, new SCParamBuilder()
                 .addParam("type", type)
                 .addParam("days", days));
@@ -379,9 +383,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param days
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String deleteOldMessages(Integer days) throws XmlRpcException {
+    public String deleteOldMessages(Integer days) throws SCXmlRpcException {
         return execute(Constants.Api.DELETE_OLD_MESSAGES, new SCParamBuilder()
                 .addParam("days", days));
     }
@@ -391,9 +395,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param days Last login age in days of accounts that should be removed.
      * @return {res,restuple} Result tuple.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String deleteOldUsers(Integer days) throws XmlRpcException {
+    public String deleteOldUsers(Integer days) throws SCXmlRpcException {
         return execute(Constants.Api.DELETE_OLD_USERS, new SCParamBuilder()
                 .addParam("days", days));
     }
@@ -404,9 +408,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param host Server name.
      * @param days Last login age in days of accounts that should be removed.
      * @return {res,restuple} Result tuple.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String deleteOldUsersVhost(String host, Integer days) throws XmlRpcException {
+    public String deleteOldUsersVhost(String host, Integer days) throws SCXmlRpcException {
         return execute(Constants.Api.DELETE_OLD_USERS_VHOST, new SCParamBuilder()
                 .addParam("host", host)
                 .addParam("days", days));
@@ -420,9 +424,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param user
      * @param server
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String deleteRosterItem(String localuser, String localserver, String user, String server) throws XmlRpcException {
+    public String deleteRosterItem(String localuser, String localserver, String user, String server) throws SCXmlRpcException {
         return execute(Constants.Api.DELETE_ROSTER_ITEM, new SCParamBuilder()
                 .addParam("localuser", localuser)
                 .addParam("localserver", localserver)
@@ -436,9 +440,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param name
      * @param service
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String destroyRoom(String name, String service) throws XmlRpcException {
+    public String destroyRoom(String name, String service) throws SCXmlRpcException {
         return execute(Constants.Api.DESTROY_ROOM, new SCParamBuilder()
                 .addParam("name", name)
                 .addParam("service", service));
@@ -450,9 +454,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param file
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String destroyRoomsFile(String file) throws XmlRpcException {
+    public String destroyRoomsFile(String file) throws SCXmlRpcException {
         return execute(Constants.Api.DESTROY_ROOMS_FILE, new SCParamBuilder()
                 .addParam("file", file));
     }
@@ -462,9 +466,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param file
      * @return {res,restuple}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String dump(String file) throws XmlRpcException {
+    public String dump(String file) throws SCXmlRpcException {
         return execute(Constants.Api.DUMP, new SCParamBuilder()
                 .addParam("file", file));
     }
@@ -475,9 +479,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param file
      * @param table
      * @return {res,restuple}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String dumpTable(String file, String table) throws XmlRpcException {
+    public String dumpTable(String file, String table) throws SCXmlRpcException {
         return execute(Constants.Api.DUMP_TABLE, new SCParamBuilder()
                 .addParam("file", file)
                 .addParam("table", table));
@@ -505,9 +509,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param thisinteger
      * @return {thatinteger,integer}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String echoInteger(Integer thisinteger) throws XmlRpcException {
+    public String echoInteger(Integer thisinteger) throws SCXmlRpcException {
         return execute(Constants.Api.ECHO_INTEGER, new SCParamBuilder()
                 .addParam("thisinteger", thisinteger));
     }
@@ -518,9 +522,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param thisinteger
      * @param thislist
      * @return {thistuple,{tuple,[{thatinteger,integer}, {thatlist,{list,{thatstring,string}}}]}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String echoIntegerListString(Integer thisinteger, Object... thislist) throws XmlRpcException {
+    public String echoIntegerListString(Integer thisinteger, Object... thislist) throws SCXmlRpcException {
         return execute(Constants.Api.ECHO_INTEGER_LIST_STRING, new SCParamBuilder()
                 .addParam("thisinteger", thisinteger)
                 .addParam("thislist", thislist));
@@ -532,9 +536,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param thisinteger
      * @param thisstring
      * @return {thistuple,{tuple,[{thisinteger,integer},{thisstring,string}]}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String echoIntegerString(Integer thisinteger, String thisstring) throws XmlRpcException {
+    public String echoIntegerString(Integer thisinteger, String thisstring) throws SCXmlRpcException {
         return execute(Constants.Api.ECHO_INTEGER_STRING, new SCParamBuilder()
                 .addParam("thisinteger", thisinteger));
     }
@@ -552,10 +556,10 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @return {results, {tuple, [{thatinteger,integer}, {thatstring,string},
      *         {thatatom,atom}, {thattuple, {tuple, [{listlen,integer},
      *         {thatlist,{list,{contentstring,string}}}]}}]}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
     public String echoIsatils(Integer thisinteger, String thisstring, String thisatom, String... thislist)
-            throws XmlRpcException {
+            throws SCXmlRpcException {
         Object[][] thistuple = new Object[][]{{"listlen", thislist.length}, {"thislist", getList("contentstring", thislist)}};
         return this.execute(Constants.Api.ECHO_ISATILS, new SCParamBuilder()
                 .addParam("thisinteger", thisinteger)
@@ -569,10 +573,10 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param thislist {list,{thisinteger,integer}}.
      * @return {thatlist,{list,{thatinteger,integer}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
     public String echoListInteger(Integer[] thislist)
-            throws XmlRpcException {
+            throws SCXmlRpcException {
         Object[] thislist2 = getList("thisinteger", thislist);
         return execute(Constants.Api.ECHO_LIST_INTEGER, new SCParamBuilder()
                 .addParam("thislist", thislist2));
@@ -583,10 +587,10 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param thislist {list,{thisstring,string}}.
      * @return {thatlist,{list,{thatstring,string}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
     public String echoListString(String[] thislist)
-            throws XmlRpcException {
+            throws SCXmlRpcException {
         Object[] thislist2 = getList("thisstring", thislist);
         return execute(Constants.Api.ECHO_LIST_STRING, new SCParamBuilder()
                 .addParam("thislist", thislist2));
@@ -597,9 +601,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param thisstring
      * @return {thatstring,string}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String echoString(String thisstring) throws XmlRpcException {
+    public String echoString(String thisstring) throws SCXmlRpcException {
         return execute(Constants.Api.ECHO_STRING, new SCParamBuilder()
                 .addParam("thisstring", thisstring));
     }
@@ -610,9 +614,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param host
      * @param directory
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String exportToOdbc(String host, String directory) throws XmlRpcException {
+    public String exportToOdbc(String host, String directory) throws SCXmlRpcException {
         return execute(Constants.Api.EXPORT_TO_ODBC, new SCParamBuilder()
                 .addParam("host", host)
                 .addParam("directory", directory));
@@ -624,9 +628,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param host
      * @param file
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String exportOdbc(String host, String file) throws XmlRpcException {
+    public String exportOdbc(String host, String file) throws SCXmlRpcException {
         return execute(Constants.Api.EXPORT_ODBC, new SCParamBuilder()
                 .addParam("host", host)
                 .addParam("file", file));
@@ -637,9 +641,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param dir
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String exportPiefxis(String dir) throws XmlRpcException {
+    public String exportPiefxis(String dir) throws SCXmlRpcException {
         return execute(Constants.Api.EXPORT_PIEFXIS, new SCParamBuilder()
                 .addParam("dir", dir));
     }
@@ -650,9 +654,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param dir
      * @param host
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String exportPiefxisHost(String dir, String host) throws XmlRpcException {
+    public String exportPiefxisHost(String dir, String host) throws SCXmlRpcException {
         return execute(Constants.Api.EXPORT_PIEFXIS_HOST, new SCParamBuilder()
                 .addParam("dir", dir)
                 .addParam("host", host));
@@ -671,9 +675,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      *            xmlrpc, json)that will have example invocation include in
      *            markdown document.
      * @return {res,rescode} 0 if command failed, 1 when succedded.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String genHtmlDocForCommands(String file, String regex, String examples) throws XmlRpcException {
+    public String genHtmlDocForCommands(String file, String regex, String examples) throws SCXmlRpcException {
         return execute(Constants.Api.GEN_HTML_DOC_FOR_COMMANDS, new SCParamBuilder()
                 .addParam("file", file)
                 .addParam("regex", regex)
@@ -693,9 +697,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      *            xmlrpc, json)that will have example invocation include in
      *            markdown document.
      * @return {res,rescode} 0 if command failed, 1 when succedded.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String genMarkdownDocForCommands(String file, String regex, String examples) throws XmlRpcException {
+    public String genMarkdownDocForCommands(String file, String regex, String examples) throws SCXmlRpcException {
         return execute(Constants.Api.GEN_MARKDOWN_DOC_FOR_COMMANDS, new SCParamBuilder()
                 .addParam("file", file)
                 .addParam("regex", regex)
@@ -706,9 +710,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * Get the Erlang cookie of this node.
      * 
      * @return {cookie,string} Erlang cookie used for authentication by ejabberd.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String getCookie() throws XmlRpcException {
+    public String getCookie() throws SCXmlRpcException {
         return execute(Constants.Api.GET_COOKIE, new SCParamBuilder(this.mProcess));
     }
     
@@ -718,9 +722,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param user
      * @param host
      * @return {last_activity,string}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String getLast(String user, String host) throws XmlRpcException {
+    public String getLast(String user, String host) throws SCXmlRpcException {
         return execute(Constants.Api.GET_LAST, new SCParamBuilder(this.mProcess)
                 .addParam("user", user)
                 .addParam("host", host));
@@ -731,9 +735,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @return {leveltuple,{tuple,[{levelnumber,integer}, {levelatom,atom},
      *         {leveldesc,string}]}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String getLogLevel() throws XmlRpcException {
+    public String getLogLevel() throws SCXmlRpcException {
         return execute(Constants.Api.GET_LOG_LEVEL, new SCParamBuilder(this.mProcess));
     }
     
@@ -741,9 +745,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * Get the number of unread offline messages.
      * 
      * @return {res,integer}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String getOfflineCount() throws XmlRpcException {
+    public String getOfflineCount() throws SCXmlRpcException {
         return execute(Constants.Api.GET_OFFLINE_COUNT, new SCParamBuilder(this.mProcess));
     }
     
@@ -754,9 +758,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param service
      * @return {affiliations, {list, {affiliation, {tuple, [{username,string},
      *         {domain,string}, {affiliation,atom}, {reason,string}]}}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String getRoomAffiliations(String name, String service) throws XmlRpcException {
+    public String getRoomAffiliations(String name, String service) throws SCXmlRpcException {
         return execute(Constants.Api.GET_ROOM_AFFILIATIONS, new SCParamBuilder()
                 .addParam("name", name)
                 .addParam("service", service));
@@ -767,9 +771,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param name
      * @param service
      * @return {occupants,{list,{occupant,{tuple,[{jid,string}, {nick,string}, {role,string}]}}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String getRoomOccupants(String name, String service) throws XmlRpcException {
+    public String getRoomOccupants(String name, String service) throws SCXmlRpcException {
         return execute(Constants.Api.GET_ROOM_OCCUPANTS, new SCParamBuilder()
                 .addParam("name", name)
                 .addParam("service", service));
@@ -780,9 +784,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param name
      * @param service
      * @return {occupants,integer}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String getRoomOccupantsNumber(String name, String service) throws XmlRpcException {
+    public String getRoomOccupantsNumber(String name, String service) throws SCXmlRpcException {
         return execute(Constants.Api.GET_ROOM_OCCUPANTS_NUMBER, new SCParamBuilder()
                 .addParam("name", name)
                 .addParam("service", service));
@@ -793,9 +797,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param name
      * @param service
      * @return {options,{list,{option,{tuple,[{name,string},{value,string}]}}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String getRoomOptions(String name, String service) throws XmlRpcException {
+    public String getRoomOptions(String name, String service) throws SCXmlRpcException {
         return execute(Constants.Api.GET_ROOM_OPTIONS, new SCParamBuilder()
                 .addParam("name", name)
                 .addParam("service", service));
@@ -806,9 +810,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @return {contacts,{list,{contact,{tuple,[{jid,string}, {nick,string},
      *         {subscription,string}, {ask,string}, {group,string}]}}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String getRoster() throws XmlRpcException {
+    public String getRoster() throws SCXmlRpcException {
         return execute(Constants.Api.GET_ROSTER, new SCParamBuilder(this.mProcess));
     }
     
@@ -818,9 +822,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param user
      * @param host
      * @return {rooms,{list,{room,string}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String getUserRooms(String user, String host) throws XmlRpcException {
+    public String getUserRooms(String user, String host) throws SCXmlRpcException {
         return execute(Constants.Api.GET_USER_ROOMS, new SCParamBuilder(this.mProcess)
                 .addParam("user", user)
                 .addParam("host", host));
@@ -842,9 +846,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param host
      * @param name
      * @return {content,string}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String getVCard(String user, String host, String name) throws XmlRpcException {
+    public String getVCard(String user, String host, String name) throws SCXmlRpcException {
         return execute(Constants.Api.GET_VCARD, new SCParamBuilder()
                 .addParam("user", user)
                 .addParam("host", host)
@@ -868,9 +872,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param name
      * @param subname
      * @return {content,string}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String getVCard2(String user, String host, String name, String subname) throws XmlRpcException {
+    public String getVCard2(String user, String host, String name, String subname) throws SCXmlRpcException {
         return execute(Constants.Api.GET_VCARD2, new SCParamBuilder()
                 .addParam("user", user)
                 .addParam("host", host)
@@ -896,9 +900,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param name
      * @param subname
      * @return {contents,{list,{value,string}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String getVCard2Multi(String user, String host, String name, String subname) throws XmlRpcException {
+    public String getVCard2Multi(String user, String host, String name, String subname) throws SCXmlRpcException {
         return execute(Constants.Api.GET_VCARD2_MULTI, new SCParamBuilder()
                 .addParam("user", user)
                 .addParam("host", host)
@@ -911,9 +915,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param file
      * @return {res,restuple}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String importDir(String file) throws XmlRpcException {
+    public String importDir(String file) throws SCXmlRpcException {
         return execute(Constants.Api.IMPORT_DIR, new SCParamBuilder()
                 .addParam("file", file));
     }
@@ -923,9 +927,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param file
      * @return {res,restuple}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String importFile(String file) throws XmlRpcException {
+    public String importFile(String file) throws SCXmlRpcException {
         return execute(Constants.Api.IMPORT_FILE, new SCParamBuilder()
                 .addParam("file", file));
     }
@@ -935,9 +939,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param file
      * @return {res,restuple}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String importPiefxis(String file) throws XmlRpcException {
+    public String importPiefxis(String file) throws SCXmlRpcException {
         return execute(Constants.Api.IMPORT_PIEFXIS, new SCParamBuilder()
                 .addParam("file", file));
     }
@@ -947,9 +951,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param dir
      * @return {res,restuple}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String importProsody(String dir) throws XmlRpcException {
+    public String importProsody(String dir) throws SCXmlRpcException {
         return execute(Constants.Api.IMPORT_PROSODY, new SCParamBuilder()
                 .addParam("dir", dir));
     }
@@ -958,9 +962,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * Number of incoming s2s connections on the node.
      * 
      * @return {s2s_incoming,integer}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String incomingS2sNumber() throws XmlRpcException {
+    public String incomingS2sNumber() throws SCXmlRpcException {
         return execute(Constants.Api.INCOMING_S2S_NUMBER, new SCParamBuilder());
     }
     
@@ -969,9 +973,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param file
      * @return {res,restuple}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String installFallback(String file) throws XmlRpcException {
+    public String installFallback(String file) throws SCXmlRpcException {
         return execute(Constants.Api.INSTALL_FALLBACK, new SCParamBuilder()
                 .addParam("file", file));
     }
@@ -981,9 +985,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param node
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String joinCluster(String node) throws XmlRpcException {
+    public String joinCluster(String node) throws SCXmlRpcException {
         return execute(Constants.Api.JOIN_CLUSTER, new SCParamBuilder()
                 .addParam("node", node));
     }
@@ -996,9 +1000,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param resource User’s resource.
      * @param reason Reason for closing session.
      * @return {res,rescode} Status code: 0 on success, 1 otherwise.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String kickSession(String user, String host, String resource, String reason) throws XmlRpcException {
+    public String kickSession(String user, String host, String resource, String reason) throws SCXmlRpcException {
         return execute(Constants.Api.KICK_SESSION, new SCParamBuilder()
                 .addParam("user", user)
                 .addParam("host", host)
@@ -1012,9 +1016,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param user
      * @param host
      * @return {num_resources,integer}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String kickUser(String user, String host) throws XmlRpcException {
+    public String kickUser(String user, String host) throws SCXmlRpcException {
         return execute(Constants.Api.KICK_USER, new SCParamBuilder()
                 .addParam("user", user)
                 .addParam("host", host));
@@ -1025,9 +1029,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param node
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String leaveCluster(String node) throws XmlRpcException {
+    public String leaveCluster(String node) throws SCXmlRpcException {
         return execute(Constants.Api.LEAVE_CLUSTER, new SCParamBuilder()
                 .addParam("node", node));
     }
@@ -1036,9 +1040,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * List nodes that are part of the cluster handled by Node.
      *  
      * @return {nodes,{list,{node,atom}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String listCluster() throws XmlRpcException {
+    public String listCluster() throws SCXmlRpcException {
         return execute(Constants.Api.LIST_CLUSTER, new SCParamBuilder());
     }
     
@@ -1047,9 +1051,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param file
      * @return {res,restuple}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String load(String file) throws XmlRpcException {
+    public String load(String file) throws SCXmlRpcException {
         return execute(Constants.Api.LOAD, new SCParamBuilder()
                 .addParam("file", file));
     }
@@ -1062,10 +1066,10 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param oldbackup
      * @param newbackup
      * @return {res,restuple}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
     public String mnesiaChangeNodename(String oldnodename, String newnodename,
-            String oldbackup, String newbackup) throws XmlRpcException {
+            String oldbackup, String newbackup) throws SCXmlRpcException {
         return execute(Constants.Api.MNESIA_CHANGE_NODENAME, new SCParamBuilder()
                 .addParam("oldnodename", oldnodename)
                 .addParam("newnodename", newnodename)
@@ -1078,9 +1082,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param module
      * @return {res,integer}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String moduleCheck(String module) throws XmlRpcException {
+    public String moduleCheck(String module) throws SCXmlRpcException {
         return execute(Constants.Api.MODULE_CHECK, new SCParamBuilder()
                 .addParam("module", module));
     }
@@ -1090,9 +1094,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param module
      * @return {res,integer}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String moduleInstall(String module) throws XmlRpcException {
+    public String moduleInstall(String module) throws SCXmlRpcException {
         return execute(Constants.Api.MODULE_INSTALL, new SCParamBuilder()
                 .addParam("module", module));
     }
@@ -1102,9 +1106,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param module
      * @return {res,integer}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String moduleUninstall(String module) throws XmlRpcException {
+    public String moduleUninstall(String module) throws SCXmlRpcException {
         return execute(Constants.Api.MODULE_UNINSTALL, new SCParamBuilder()
                 .addParam("module", module));
     }
@@ -1114,9 +1118,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param module
      * @return {res,integer}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String moduleUpgrade(String module) throws XmlRpcException {
+    public String moduleUpgrade(String module) throws SCXmlRpcException {
         return execute(Constants.Api.MODULE_UPGRADE, new SCParamBuilder()
                 .addParam("module", module));
     }
@@ -1125,9 +1129,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * ??
      * 
      * @return {modules,{list,{module,{tuple,[{name,atom},{summary,string}]}}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String modulesAvailable() throws XmlRpcException {
+    public String modulesAvailable() throws SCXmlRpcException {
         return execute(Constants.Api.MODULES_AVAILABLE, new SCParamBuilder(this.mProcess));
     }
     
@@ -1135,9 +1139,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * ??
      * 
      * @return {modules,{list,{module,{tuple,[{name,atom},{summary,string}]}}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String modulesInstalled() throws XmlRpcException {
+    public String modulesInstalled() throws SCXmlRpcException {
         return execute(Constants.Api.MODULES_INSTALLED, new SCParamBuilder(this.mProcess));
     }
     
@@ -1145,9 +1149,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * ??
      * 
      * @return {res,integer}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String modulesUpdate_specs() throws XmlRpcException {
+    public String modulesUpdate_specs() throws SCXmlRpcException {
         return execute(Constants.Api.MODULES_UPDATE_SPECS, new SCParamBuilder(this.mProcess));
     }
     
@@ -1156,9 +1160,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param host
      * @return {rooms,{list,{room,string}}}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String mucOnlineRooms(String host) throws XmlRpcException {
+    public String mucOnlineRooms(String host) throws SCXmlRpcException {
         return execute(Constants.Api.MUC_ONLINE_ROOMS, new SCParamBuilder()
                 .addParam("host", host));
     }
@@ -1168,9 +1172,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * 
      * @param nick
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String mucUnregisterNick(String nick) throws XmlRpcException {
+    public String mucUnregisterNick(String nick) throws SCXmlRpcException {
         return execute(Constants.Api.MUC_UNREGISTER_NICK, new SCParamBuilder()
                 .addParam("nick", nick));
     }
@@ -1182,9 +1186,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param host Name of host to check.
      * @param days Number of days to calculate sum.
      * @return {users,integer} Number of users active on given server in last n days.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String numActiveUsers(String host, int days) throws XmlRpcException {
+    public String numActiveUsers(String host, int days) throws SCXmlRpcException {
         return execute(Constants.Api.NUM_ACTIVE_USERS, new SCParamBuilder()
                 .addParam("host", host)
                 .addParam("days", days));
@@ -1196,9 +1200,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param user User name.
      * @param host Server name.
      * @return {resources,integer} Number of active resources for a user.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String numResources(String user, String host) throws XmlRpcException {
+    public String numResources(String user, String host) throws SCXmlRpcException {
         return execute(Constants.Api.NUM_RESOURCES, new SCParamBuilder()
                 .addParam("user", user)
                 .addParam("host", host));
@@ -1208,9 +1212,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * Number of outgoing s2s connections on the node.
      * 
      * @return {s2s_outgoing,integer}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String outgoingS2sNumber() throws XmlRpcException {
+    public String outgoingS2sNumber() throws SCXmlRpcException {
         return execute(Constants.Api.OUTGOING_S2S_NUMBER, new SCParamBuilder());
     }
     
@@ -1221,9 +1225,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param base
      * @param expoent
      * @return {power,integer}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String pow(int base, int expoent) throws XmlRpcException {
+    public String pow(int base, int expoent) throws SCXmlRpcException {
         return execute(Constants.Api.POW, new SCParamBuilder()
                 .addParam("base", base)
                 .addParam("expoent", expoent));
@@ -1236,9 +1240,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param host
      * @param xmlquery
      * @return {res,rescode}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String privacySet(String user, String host, String xmlquery) throws XmlRpcException {
+    public String privacySet(String user, String host, String xmlquery) throws SCXmlRpcException {
         return execute(Constants.Api.PRIVACY_SET, new SCParamBuilder()
                 .addParam("user", user)
                 .addParam("host", host)
@@ -1253,9 +1257,9 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
      * @param element
      * @param ns
      * @return {res,string}.
-     * @throws XmlRpcException
+     * @throws SCXmlRpcException
      */
-    public String privateGet(String user, String host, String element, String ns) throws XmlRpcException {
+    public String privateGet(String user, String host, String element, String ns) throws SCXmlRpcException {
         return execute(Constants.Api.PRIVATE_GET, new SCParamBuilder()
                 .addParam("user", user)
                 .addParam("host", host)
