@@ -15,7 +15,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import br.com.softctrl.ejabberd.admin.xmlrpc.SCXmlRpcEjabberd;
-import br.com.softctrl.ejabberd.admin.xmlrpc.SCXmlRpcException;```
+import br.com.softctrl.ejabberd.admin.xmlrpc.SCXmlRpcException;
+```
 
 Then, you can create a "SCXmlRpcEjabberd" object:
 
