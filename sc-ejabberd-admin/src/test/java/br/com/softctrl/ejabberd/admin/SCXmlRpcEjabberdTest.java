@@ -38,8 +38,9 @@ public class SCXmlRpcEjabberdTest extends TestCase {
      */
     public SCXmlRpcEjabberdTest(String testName) {
         super(testName);
-        // TODO: configure here for you ejabberd
+        // TODO: configure here for you ejabberd:
 //        try {
+// Use a real user and password.
 //            client = new SCXmlRpcEjabberd("user01", "localhost", "123456",
 //                    new URL("http://localhost:4560"));
 //        } catch (MalformedURLException e) {
