@@ -201,7 +201,9 @@ public class Constants {
 
         public static final String PRIVATE_SET = "private_set";
 
-        public static final String PROCESS_ROSTERITEMS = "process_rosteritems";        
+        public static final String PROCESS_ROSTERITEMS = "process_rosteritems";
+
+        public static final String PUSH_ALLTOALL = "push_alltoall";        
         
 
     }

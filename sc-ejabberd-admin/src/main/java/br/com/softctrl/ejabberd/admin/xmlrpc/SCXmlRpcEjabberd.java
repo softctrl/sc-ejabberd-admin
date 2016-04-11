@@ -1320,6 +1320,21 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
                 .addParam("contacts", contacts));
     }
 
-    //TODO: Just a reminder to help me. next push_alltoall
+    /**
+     * Add all the users to all the users of Host in Group.
+     * 
+     * @param host
+     * @param group
+     * @return {res,rescode}.
+     * @throws SCXmlRpcException
+     */
+    public String pushAllToAll(String host, String group) throws SCXmlRpcException {
+        return execute(Constants.Api.PUSH_ALLTOALL, new SCParamBuilder()
+                .addParam("host", host)
+                .addParam("group", group));
+    }
+    
+    //TODO: Just a reminder to help me. next push_roster
+
 
 }
