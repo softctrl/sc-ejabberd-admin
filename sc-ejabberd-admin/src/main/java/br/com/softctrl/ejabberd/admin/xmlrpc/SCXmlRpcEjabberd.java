@@ -1183,9 +1183,12 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
     /**
      * Get number of users active in the last days.
      * 
-     * @param host Name of host to check.
-     * @param days Number of days to calculate sum.
-     * @return {users,integer} Number of users active on given server in last n days.
+     * @param host
+     *            Name of host to check.
+     * @param days
+     *            Number of days to calculate sum.
+     * @return {users,integer} Number of users active on given server in last n
+     *         days.
      * @throws SCXmlRpcException
      */
     public String numActiveUsers(String host, int days) throws SCXmlRpcException {
@@ -1267,6 +1270,56 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
                 .addParam("ns", ns));
     }
     
-    //TODO: Just a reminder to help me. next private_set
+    /**
+     * Set to the user private storage.
+     * 
+     * @param user
+     * @param host
+     * @param element
+     * @return {res,rescode}.
+     * @throws SCXmlRpcException
+     */
+    public String privateSet(String user, String host, String element) throws SCXmlRpcException {
+        return execute(Constants.Api.PRIVATE_SET, new SCParamBuilder()
+                .addParam("user", user)
+                .addParam("host", host)
+                .addParam("element", element));
+    }
+    
+    /**
+     * List or delete rosteritems that match filtering options. Explanation of
+     * each argument: - action: what to do with each rosteritem that matches all
+     * the filtering options - subs: subscription type - asks: pending
+     * subscription - users: the JIDs of the local user - contacts: the JIDs of
+     * the contact in the roster Allowed values in the arguments: ACTION = list
+     * | delete SUBS = SUB[:SUB]* | any SUB = none | from | to | both ASKS =
+     * ASK[:ASK]* | any ASK = none | out | in USERS = JID[:JID]* | any CONTACTS
+     * = JID[:JID]* | any JID = characters valid in a JID, and can use the
+     * globs: *, ?, ! and […] This example will list roster items with
+     * subscription ‘none’, ‘from’ or ‘to’ that have any ask property, of local
+     * users which JID is in the virtual host ‘example.org’ and that the contact
+     * JID is either a bare server name (without user part) or that has a user
+     * part and the server part contains the word ‘icq’: list none:from:to
+     * any @example.org *:@icq
+     * 
+     * @param action
+     * @param subs
+     * @param asks
+     * @param users
+     * @param contacts
+     * @return {response,{list,{pairs,{tuple,[{user,string},{contact,string}]}}}
+     *         }.
+     * @throws SCXmlRpcException
+     */
+    public String processRosterItems(String action, String subs, String asks, String users, String contacts) throws SCXmlRpcException {
+        return execute(Constants.Api.PROCESS_ROSTERITEMS, new SCParamBuilder()
+                .addParam("action", action)
+                .addParam("subs", subs)
+                .addParam("asks", asks)
+                .addParam("users", users)
+                .addParam("contacts", contacts));
+    }
+
+    //TODO: Just a reminder to help me. next push_alltoall
 
 }

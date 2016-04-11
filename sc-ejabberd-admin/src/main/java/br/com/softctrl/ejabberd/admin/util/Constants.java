@@ -197,7 +197,11 @@ public class Constants {
 
         public static final String PRIVACY_SET = "privacy_set";
 
-        public static final String PRIVATE_GET = "private_get";        
+        public static final String PRIVATE_GET = "private_get";
+
+        public static final String PRIVATE_SET = "private_set";
+
+        public static final String PROCESS_ROSTERITEMS = "process_rosteritems";        
         
 
     }
