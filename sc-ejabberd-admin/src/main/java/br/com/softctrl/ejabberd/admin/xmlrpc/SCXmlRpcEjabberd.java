@@ -1334,7 +1334,51 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
                 .addParam("group", group));
     }
     
-    //TODO: Just a reminder to help me. next push_roster
+	/**
+	 * Push template roster from file to a user.
+	 * 
+	 * @param file.
+	 * @param host.
+	 * @param group.
+	 * @return {res,rescode}.
+	 * @throws SCXmlRpcException
+	 */
+    public String pushHoster(String file, String host, String group) throws SCXmlRpcException {
+        return execute(Constants.Api.PUSH_HOSTER, new SCParamBuilder()
+                .addParam("file", file)
+                .addParam("host", host)
+                .addParam("group", group));
+    }
+    
+    /**
+     * 
+     * @param file
+     * @return
+     * @throws SCXmlRpcException
+     */
+    public String pushRosterAll(String file) throws SCXmlRpcException {
+        return execute(Constants.Api.PUSH_ROSTER_ALL, new SCParamBuilder()
+                .addParam("file", file));
+    }
+
+    /**
+     * Register a user.
+     * 
+     * @param user.
+     * @param host.
+     * @param password.
+     * @return {res,restuple}.
+     * @throws SCXmlRpcException
+     */
+    public String register(String user, String host, String password) throws SCXmlRpcException {
+        return execute(Constants.Api.REGISTER, new SCParamBuilder()
+                .addParam("user", user)
+                .addParam("host", host)
+                .addParam("password", password));
+    }
+    
+
+    //TODO: Just a reminder to help me. next registered_users
 
 
 }

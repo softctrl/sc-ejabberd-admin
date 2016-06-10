@@ -203,7 +203,13 @@ public class Constants {
 
         public static final String PROCESS_ROSTERITEMS = "process_rosteritems";
 
-        public static final String PUSH_ALLTOALL = "push_alltoall";        
+        public static final String PUSH_ALLTOALL = "push_alltoall";
+
+		public static final String PUSH_HOSTER = "push_roster";
+
+		public static final String PUSH_ROSTER_ALL = "push_roster_all";
+
+		public static final String REGISTER = "register";        
         
 
     }
