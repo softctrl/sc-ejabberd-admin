@@ -1376,9 +1376,17 @@ public class SCXmlRpcEjabberd extends XmlRpcClient {
                 .addParam("host", host)
                 .addParam("password", password));
     }
-    
 
-    //TODO: Just a reminder to help me. next registered_users
+	/**
+	 * List all registered users in HOST.
+	 * @param host
+	 * @return {users,{list,{username,string}}}.
+	 * @throws SCXmlRpcException
+	 */
+	public String registeredUsers(String host) throws SCXmlRpcException {
+		return execute(Constants.Api.REGISTERED_USERS, new SCParamBuilder().addParam("host", host));
+	}
 
+    //TODO: Just a reminder to help me. next registered_vhosts
 
 }

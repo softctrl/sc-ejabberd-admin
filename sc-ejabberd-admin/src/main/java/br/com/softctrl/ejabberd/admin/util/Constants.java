@@ -209,7 +209,9 @@ public class Constants {
 
 		public static final String PUSH_ROSTER_ALL = "push_roster_all";
 
-		public static final String REGISTER = "register";        
+		public static final String REGISTER = "register";
+
+		public static final String REGISTERED_USERS = "registered_users";        
         
 
     }
